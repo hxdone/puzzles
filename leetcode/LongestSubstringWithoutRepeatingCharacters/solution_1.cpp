@@ -1,4 +1,5 @@
-// 12ms solution by hxdone
+// 12ms DP solution by hxdone
+// O(n) time complexity and O(1) space complexity.
 
 #include <string>
 #include <iostream>
