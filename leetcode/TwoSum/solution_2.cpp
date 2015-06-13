@@ -1,4 +1,4 @@
-// Solve it with map in stl.
+// Solve it with unordered_map.
 // author: hxdone
 
 #include<iostream>
@@ -8,49 +8,24 @@ using namespace std;
 
 class Solution {
 public:
+	typedef map<int, int> kv_map; // value is largest element index for key
 	vector<int> twoSum(vector<int>& nums, int target) {
 		vector<int> ret;
-
-		// add nums to a map
-		map<int, vector<int>*> value_map;
+		// add nums to a hash table
 		int cnt = nums.size();
-		map<int, vector<int>*>::iterator iter;
-		vector<int>* plist = NULL;
+		kv_map value_map;
+		kv_map::iterator iter;
+		for (int i = 0; i < cnt; ++i)
+			value_map[nums[i]] = i;
+		// find the diff value in hash table
 		for (int i = 0; i < cnt; ++i) {
-			int v = nums[i];
-			iter = value_map.find(v);
-			if (iter != value_map.end())
-				iter->second->push_back(i);
-			else {
-				plist = new vector<int>();
-				plist->push_back(i);
-				value_map.insert(pair<int, vector<int>*>(v, plist));
+			iter = value_map.find(target-nums[i]);
+			if (iter != value_map.end() && iter->second != i) {
+				ret.push_back(i+1);
+				ret.push_back(iter->second+1);
+				return ret;
 			}
 		}
-		// find the diff value in map
-		bool found = false;
-		for (int i = 0; i < cnt && !found; ++i) {
-			int diff = target - nums[i];
-			iter = value_map.find(diff);
-			if (iter != value_map.end()) {
-				int list_len = iter->second->size();
-				for (int j = 0; j < list_len; ++j) {
-					if ((*(iter->second))[j] != i) {
-						ret.push_back(i+1);
-						ret.push_back((*(iter->second))[j]+1);
-						found = true;
-						break;
-					}
-				}
-			}
-		}
-
-		// delete vectors in map
-		for (iter = value_map.begin(); iter != value_map.end(); ++iter) {
-			delete iter->second;
-			iter->second = NULL;
-		}
-
 		return ret;
 	}
 
