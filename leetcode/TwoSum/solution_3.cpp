@@ -10,23 +10,17 @@ class Solution {
 public:
 	typedef unordered_map<int, int> kv_map; // value is largest element index for key
 	vector<int> twoSum(vector<int>& nums, int target) {
-		vector<int> ret;
-		// add nums to a hash table
+		// find the diff value in hash table
+		// and add nums to a hash table
 		int cnt = nums.size();
 		kv_map value_map;
-		kv_map::iterator iter;
-		for (int i = 0; i < cnt; ++i)
-			value_map[nums[i]] = i;
-		// find the diff value in hash table
 		for (int i = 0; i < cnt; ++i) {
-			iter = value_map.find(target-nums[i]);
-			if (iter != value_map.end() && iter->second != i) {
-				ret.push_back(i+1);
-				ret.push_back(iter->second+1);
-				return ret;
-			}
+			auto iter = value_map.find(target-nums[i]);
+			if (iter != value_map.end())
+				return vector<int>({iter->second+1, i+1});
+			value_map[nums[i]] = i;
 		}
-		return ret;
+		return vector<int>();
 	}
 
 };
