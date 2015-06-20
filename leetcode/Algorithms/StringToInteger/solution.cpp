@@ -1,4 +1,5 @@
-// solution by hxdone
+// 8ms solution check integer range with reversing calculation from boundary.
+// by hxdone.
 
 class Solution {
 public:
@@ -7,23 +8,20 @@ public:
 		for(; i < str.size() && str[i] == ' '; ++i);
 		if (i == str.size())
 			return 0;
-		char sign = str[i];
-		if (sign == '-' || sign == '+')
+		bool minus = (str[i] == '-');
+		if (str[i] == '-' || str[i] == '+')
 			++i;
 		int val = 0;
-		while (i < str.size()) {
-			if (str[i] >= '0' && str[i] <= '9') {
-				int digit = str[i]-'0';
-				if (sign == '-' && val > (INT_MIN+digit)/(-10)) // check out of range
-					return INT_MIN;
-				else if (sign != '-' && val > (INT_MAX-digit)/10) // check out of range
-					return INT_MAX;
-				else
-					val = val*10 + digit;
-			} else
-				return (sign=='-') ? -val:val;
-			++i;
+		for (;i < str.size() && str[i] >= '0' && str[i] <= '9'; ++i) {
+			int digit =  minus ? ('0'-str[i]) : (str[i]-'0');
+			if (minus && val < (INT_MIN-digit)/10)
+				return INT_MIN;
+			else if (!minus && val > (INT_MAX-digit)/10)
+				return INT_MAX;
+			else
+				val = val*10 + digit;
 		}
-		return (sign=='-') ? -val:val;
+		return val;
 	}
 };
+
