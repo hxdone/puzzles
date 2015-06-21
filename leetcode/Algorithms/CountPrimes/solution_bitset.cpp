@@ -51,7 +51,7 @@ public:
         MyBitset np(n-1); //not_prime
         int numPrimes = n-2; // kickout integer 1
         for (int i = 2; i*i <= n-1; ++i) {
-			if (np.test(i)) continue;
+            if (np.test(i)) continue;
             int max_fold = (n-1)/i;
             for (int j = max(2,i); j <= max_fold; ++j) {
                 int k = i*j;
@@ -66,9 +66,9 @@ public:
 };
 
 int main() {
-	Solution s;
-	int n = 5;
-	cout << "n=" << n <<", numPrimes=" << s.countPrimes(5) <<endl;
-	cout << sizeof(bool) << endl;
-	return 0;
+    Solution s;
+    int n = 5;
+    cout << "n=" << n <<", numPrimes=" << s.countPrimes(5) <<endl;
+    cout << sizeof(bool) << endl;
+    return 0;
 }
