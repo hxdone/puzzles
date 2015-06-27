@@ -1,12 +1,10 @@
-// by hxdone
+// three-line solution by hxdone
 
 class Solution {
 public:
     int rangeBitwiseAnd(int m, int n) {
-        int ret = m&n;
-        int dist = n-m;
-        for (int k = 0; k <= 31 && dist-1 >= 1<<k; ++k)
-            ret &= ~(1<<k);
-        return ret;
+        int k;
+        for (k = 0; k < 31 && n-m > 1<<k; ++k);
+        return (m&n)>>k<<k;
     }
 };
