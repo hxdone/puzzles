@@ -1,4 +1,5 @@
 // by hxdone
+
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -11,39 +12,16 @@
 class Solution {
 public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        stack<TreeNode*> ancestors_p, ancestors_q;
-        
-        // preorder traverse of the tree to find p and q, and keep the ancestor nodes
-        findNodeInTree(root, p, ancestors_p);
-        findNodeInTree(root, q, ancestors_q);
-        
-        // find the longest common prefix
-        while (true) {
-            if (ancestors_p.size() > ancestors_q.size()) {
-                ancestors_p.pop();
-            } else if (ancestors_p.size() < ancestors_q.size()) {
-                ancestors_q.pop();
-            } else {
-                if (ancestors_p.top() == ancestors_q.top()) {
-                    return ancestors_p.top();
-                } else {
-                    ancestors_p.pop();
-                    ancestors_q.pop();
-                }
-            }
-        }
-        return NULL;
-    }
-private:
-    bool findNodeInTree(TreeNode* root, TreeNode* p, stack<TreeNode*>& ancestors) {
-        if (!root)
-            return false;
-        ancestors.push(root);
-        if (root == p || findNodeInTree(root->left, p, ancestors) || findNodeInTree(root->right, p, ancestors))
-            return true;
-        else {
-            ancestors.pop();
-            return false;
-        }
+        if (!root || !p || !q)
+            return NULL;
+        TreeNode* smaller = (p->val <= q->val) ? p : q;
+        TreeNode* bigger = (smaller == p) ? q : p;
+        if (root->val >= smaller->val) {
+            if (root->val <= bigger->val)
+                return root;
+            else
+                return lowestCommonAncestor(root->left, p, q);
+        } else
+            return lowestCommonAncestor(root->right, p, q);
     }
 };
